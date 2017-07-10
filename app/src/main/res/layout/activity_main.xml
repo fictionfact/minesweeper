@@ -7,20 +7,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.gigabyte.minesweeper.MainActivity">
 
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.example.gigabyte.minesweeper.views.grid.Grid
         android:id="@+id/minesweeperGridView"
-        android:layout_width="match_parent"
+        android:layout_width="368dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"></com.example.gigabyte.minesweeper.views.grid.Grid>
+        android:layout_centerHorizontal="true"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp"></com.example.gigabyte.minesweeper.views.grid.Grid>
+
+    <Button
+        android:id="@+id/restart_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="New Game"
+        app:layout_constraintTop_toBottomOf="@+id/minesweeperGridView"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="144dp"/>
 
 </android.support.constraint.ConstraintLayout>

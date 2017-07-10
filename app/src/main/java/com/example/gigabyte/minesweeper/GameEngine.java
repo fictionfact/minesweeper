@@ -21,6 +21,8 @@ public class GameEngine {
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
 
+    private boolean firstClick;
+
     private Cell[][] MinesweeperGrid = new Cell[WIDTH][HEIGHT];
 
     public static GameEngine getInstance() {
@@ -36,7 +38,7 @@ public class GameEngine {
 
     public void createGrid(Context context){
         this.context = context;
-
+        firstClick = true;
         // create the grid and store it
         int[][] GeneratedGrid = Generator.generate(BOMB_NUMBER, WIDTH, HEIGHT);
         PrintGrid.print(GeneratedGrid, WIDTH, HEIGHT);
@@ -67,13 +69,20 @@ public class GameEngine {
     }
 
     public void click(int x, int y){
-        if(x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT && !getCellAt(x,y).isClicked()){
+        if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT && !getCellAt(x, y).isClicked()) {
+            if(firstClick){
+                int[][] GeneratedGrid = Generator.generateBomb(BOMB_NUMBER, WIDTH, HEIGHT, x, y);
+                PrintGrid.print(GeneratedGrid, WIDTH, HEIGHT);
+                setGrid(context, GeneratedGrid);
+                firstClick = false;
+            }
+
             getCellAt(x, y).setClicked();
 
-            if(getCellAt(x, y).getValue() == 0){
-                for(int xt = -1; xt <= 1; xt++){
-                    for(int yt = -1; yt <= 1; yt++){
-                        if(x + xt >= 0 && y + yt >= 0 && x + xt < WIDTH && y + yt < HEIGHT) {
+            if (getCellAt(x, y).getValue() == 0) {
+                for (int xt = -1; xt <= 1; xt++) {
+                    for (int yt = -1; yt <= 1; yt++) {
+                        if (x + xt >= 0 && y + yt >= 0 && x + xt < WIDTH && y + yt < HEIGHT) {
                             if (!getCellAt(x + xt, y + yt).isBomb()) {
                                 click(x + xt, y + yt);
                             }
@@ -82,7 +91,7 @@ public class GameEngine {
                 }
             }
 
-            if(getCellAt(x, y).isBomb()){
+            if (getCellAt(x, y).isBomb() && !getCellAt(x, y).isFlagged()) {
                 onGameLost();
             }
         }

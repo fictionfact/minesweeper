@@ -31,6 +31,30 @@ public class Generator {
         return grid;
     }
 
+    public static int[][] generateBomb(int bombnumber, final int width, final int height, final int x_click, final int y_click){
+        //Random for generating numbers
+        Random r = new Random();
+
+        int [][] grid = new int[width][height];
+        for(int x = 0; x < width; x++){
+            grid[x] = new int[height];
+        }
+
+        while(bombnumber > 0){
+            int x = r.nextInt(width);
+            int y = r.nextInt(height);
+
+            // -1 is the bomb
+            if(grid[x][y] != -1 && (x != x_click && y != y_click)){
+                grid[x][y] = -1;
+                bombnumber--;
+            }
+        }
+        grid = calculateNeighbours(grid, width, height);
+
+        return grid;
+    }
+
     private static int[][] calculateNeighbours(int[][] grid, final int width, final int height){
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
